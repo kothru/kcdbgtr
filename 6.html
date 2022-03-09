@@ -14,11 +14,13 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.17.6/babel.js"></script>
   <script type="text/babel">
-    const Message = props => <div className="message">{props.msg}</div>
+    const Message = props => <div className="message">{props.children}</div>
     const element = (
       <div className="container">
-        <Message msg="Hello" />
-        <Message msg="World" />
+        <Message>
+          Hello
+          <Message>World</Message>
+        </Message>
       </div>
     )
     ReactDOM.render(element, document.getElementById('root'))
