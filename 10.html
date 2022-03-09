@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.js"></script>
+  <style>
+    .box {
+      border: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .box--large {
+      width: 270px;
+      height: 270px;
+    }
+
+    .box--medium {
+      width: 180px;
+      height: 180px;
+    }
+
+    .box--small {
+      width: 90px;
+      height: 90px;
+    }
+  </style>
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+    function Box({ size, style, ...rest }) {
+      const sizeClassName = size ? `box--${size}` : ''
+      return (
+        <div
+          className={`box ${sizeClassName}`}
+          style={{ fontStyle: 'italic', ...style }}
+          {...rest}
+        />
+      )
+    }
+    const element = (
+      <div>
+        <Box size="small" style={{ backgroundColor: 'LightBlue' }}>
+          small lb
+        </Box>
+        <Box size="medium" style={{ backgroundColor: 'pink' }}>
+          medium pk
+        </Box>
+        <Box size="large" style={{ backgroundColor: 'orange' }}>
+          large og
+        </Box>
+      </div>
+    )
+    ReactDOM.render(element, rootElement)
+
+  </script>
+</body>
+
+</html>
