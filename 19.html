@@ -16,21 +16,24 @@
   <script type="text/babel">
     // enable console option: Preserve log
     function UsernameForm() {
+      const usernameInputRef = React.useRef()
       function handleSubmit(event) {
         event.preventDefault()
         console.dir(event.target)
-        const userName = event.target.elements[0].value
+        // const userName = event.target.elements.usernameInput.value
+        const userName = usernameInputRef.current.value
         alert(`You input ${userName}`)
       }
       return (
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="usernameInput">Username</label>
-            <input id="usernameInput" type="text" />
+            <input ref={usernameInputRef} id="usernameInput" type="text" />
           </div>
           <button type="submit">Submit</button>
         </form>
       )
+      // <button type="button">Cancel</button>
     }
     ReactDOM.render(<UsernameForm />, document.getElementById('root'))
   </script>
