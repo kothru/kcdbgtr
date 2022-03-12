@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.js"></script>
+  <script type="text/babel">
+    const allItems = [
+      { id: 'a', value: 'aaa' },
+      { id: 'b', value: 'bbb' },
+      { id: 'c', value: 'ccc' },
+      { id: 'd', value: 'ddd' },
+    ]
+    function App() {
+      const [items, setItems] = React.useState(allItems)
+      function addItem() {
+        setItems([...items, allItems.find(i => !items.includes(i))])
+      }
+      function removeItem(item) {
+        setItems(items.filter(i => i !== item))
+      }
+      return (
+        <div>
+          <button disabled={items.length >= allItems.length} onClick={addItem}>add item</button>
+          <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+            {items.map(item => (
+              <li key={item.id}>
+                <button onClick={() => removeItem(item)}>remove</button>
+                <label htmlFor={`${item.value}-input`}>{item.value}</label>
+                <input id={`${item.value}-input`} defaultValue={item.value} />
+              </li>
+            ))}
+          </ul>
+        </div >
+      )
+    }
+    ReactDOM.render(<App />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
