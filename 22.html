@@ -13,24 +13,35 @@
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7/babel.js"></script>
+  <script src="https://unpkg.com/react-error-boundary@3/dist/react-error-boundary.umd.min.js"></script>
   <script type="text/babel">
-    class ErrorBoundary extends React.Component {
-      state = { error: null }
-      static getDerivedStateFromError(error) {
-        return { error }
-      }
-      render() {
-        const { error } = this.state
-        if (error) {
-          return <this.props.FallbackComponent error={error} />
-        }
-        return this.props.children
-      }
-    }
-    function ErrorFallback({ error }) {
+    // prefer to use
+    const ErrorBoundary = ReactErrorBoundary.ErrorBoundary
+    // class ErrorBoundary extends React.Component {
+    //   state = { error: null }
+    //   static getDerivedStateFromError(error) {
+    //     return { error }
+    //   }
+    //   render() {
+    //     const { error } = this.state
+    //     if (error) {
+    //       return <this.props.FallbackComponent error={error} />
+    //     }
+    //     return this.props.children
+    //   }
+    // }
+    function ErrorFallbackLower({ error }) {
       return (
         <div>
-          <p>something went wrong</p>
+          <p>something went wrong lower</p>
+          <pre>{error.message}</pre>
+        </div>
+      )
+    }
+    function ErrorFallbackUpper({ error }) {
+      return (
+        <div>
+          <p>something went wrong upper</p>
           <pre>{error.message}</pre>
         </div>
       )
@@ -40,15 +51,18 @@
     }
     function App() {
       const [explode, setExplode] = React.useState(false)
+      // nearest boundary is high priority
       return (
-        <div>
-          <div><button onClick={() => setExplode(true)}>BOMB</button></div>
+        <ErrorBoundary FallbackComponent={ErrorFallbackUpper}>
           <div>
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              {explode ? <Bomb /> : 'Push the button'}
-            </ErrorBoundary>
-          </div>
-        </div >
+            <div><button onClick={() => setExplode(true)}>BOMB</button></div>
+            <div>
+              <ErrorBoundary FallbackComponent={ErrorFallbackLower}>
+                {explode ? <Bomb /> : 'Push the button'}
+              </ErrorBoundary>
+            </div>
+          </div >
+        </ErrorBoundary>
       )
     }
     ReactDOM.render(<App />, document.getElementById('root'))
